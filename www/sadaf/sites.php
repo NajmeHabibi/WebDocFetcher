@@ -4,6 +4,7 @@ include("header.inc.php");
 HTMLBegin();
 class be_sites
 {
+    public $id;
 	public $name;		//
 	public $domain;		//
 	public $is_ssl;		//
@@ -17,7 +18,7 @@ class be_sites
 $mysql = pdodb::getInstance();
 		$k=0;
 		$ret = array();
-		$query = "select sites.name
+		$query = "select sites.id , sites.name
 				,sites.domain
 				,sites.is_ssl, sites.depth , sites.max_docs , sites.doc_formats , sites.status from sadaf.sites  ";
                 $res = $mysql->Execute($query);
@@ -25,6 +26,8 @@ $mysql = pdodb::getInstance();
                 while($rec=$res->fetch())
                 {
                     $ret[$k] = new be_sites();
+                    $ret[$k]->id=$rec["id"];
+                    //echo $ret[$k]->id;
                     $ret[$k]->name=$rec["name"];
                     $ret[$k]->domain=$rec["domain"];
                     $ret[$k]->is_ssl=$rec["is_ssl"];
@@ -50,7 +53,7 @@ $mysql = pdodb::getInstance();
 for($k=0; $k<count($ret); $k++)
 {
 	echo "<tr>";
-    echo "	<td>".htmlentities($ret[$k]->name, ENT_QUOTES, 'UTF-8')."</td>";
+    echo "	<td><a href=\"docs.php?site_id=".$ret[$k]->id."\">".htmlentities($ret[$k]->name, ENT_QUOTES, 'UTF-8')."</a></td>";
     echo "	<td>".htmlentities($ret[$k]->domain, ENT_QUOTES, 'UTF-8')."</td>";
     echo "	<td>".htmlentities($ret[$k]->depth, ENT_QUOTES, 'UTF-8')."</td>";
     echo "	<td>".htmlentities($ret[$k]->max_docs, ENT_QUOTES, 'UTF-8')."</td>";
