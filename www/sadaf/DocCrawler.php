@@ -7,7 +7,9 @@ class DocCrawler
     private $domain;
     private $is_ssl;
     private $links;
+    private $max_docs;
     private $docs;
+    private $doc_count;
     private $doc_formats;
     private $simple_html_dom;
     public function __construct()
@@ -19,9 +21,10 @@ class DocCrawler
         );
     }
 
-    public function set_target($domain, $is_ssl=false){
+    public function set_target($domain, $is_ssl=false, $max_docs){
         $this->domain = $domain;
         $this->is_ssl = $is_ssl;
+        $this->max_docs = $max_docs;
     }
 
     private function head_request($url){
@@ -50,8 +53,16 @@ class DocCrawler
                 $cont = false;
             if ($cont)
                 continue;
-            if (in_array(pathinfo(parse_url($link)['path'])['extension'], $this->doc_formats))
-                $this->docs[] = $link;
+            if (in_array(pathinfo(parse_url($link)['path'])['extension'], $this->doc_formats)){
+                $data = array(
+                    'site_id'   =>  $this->target->id,
+                    'link'      =>  $link,
+                    'title'     =>  $this->simple_html_dom->find('title')[0]->innertext,
+                    'topic'     =>  $this->simple_html_dom->find('h1')[0]->plaintext
+                );
+                $this->doc_count++;
+                $this->docs[] = $data;
+            }
         }
         return $this->docs;
     }
@@ -77,8 +88,6 @@ class DocCrawler
 
         foreach( $this->simple_html_dom->find('a') as $element){
 
-
-
             $encoded_href = preg_replace_callback('/[^\x20-\x7f]/', function($match) {
                 return urlencode($match[0]);
             }, $element->href);
@@ -98,7 +107,7 @@ class DocCrawler
             if (in_array($final_href, $this->links))
                 continue;
             $this->links[] = $final_href;
-            if ($layer < $depth)
+            if ($layer < $depth & $this->doc_count < $this->max_docs)
                 $this->crawlLinks($final_href,$layer+1, $depth);
         }
     }
