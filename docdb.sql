@@ -113,6 +113,31 @@ CREATE TABLE `sites` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Dumping data for table `systemfacilities`
+--
+
+INSERT INTO `systemfacilities` (`FacilityID`, `FacilityName`, `GroupID`, `OrderNO`, `PageAddress`) VALUES
+(6, 'افزودن سایت و شروع خزش', 2, 1, 'crawl.php'),
+(7, 'سایت ها', 2, 1, 'sites.php');
+
+--
+-- Dumping data for table `facilitypages`
+--
+
+INSERT INTO `facilitypages` (`FacilityPageID`, `FacilityID`,  `PageName`) VALUES
+(52, 6, '/crawl.php'),
+(53, 7, '/sites.php'),
+(54, 7, '/docs.php');
+
+--
+-- Dumping data for table `userfacilities`
+--
+
+INSERT INTO `userfacilities` (`FacilityPageID`, `UserID`, `FacilityID`) VALUES
+(5,'omid',6),
+(6, 'omid', 7);
+
+--
 -- Dumping data for table `sites`
 --
 
