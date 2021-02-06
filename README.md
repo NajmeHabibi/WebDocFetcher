@@ -5,7 +5,7 @@ Here are the steps to run the project:
 2. Open http://localhost/phpmyadmin in your browser
 3. Create Sadaf database by importing simple_sadaf_database.sql
 4. Then import docdb.sql over the base database (This will create 'sites' and 'docs' tables)
-5. Login through http://localhost/sadaf-master/www/sadaf/login.php page
+5. Login through http://localhost/WebDocFetcher/www/sadaf/login.php page
 6. Now you can use the website
 
 In case of having trouble crawling websites:

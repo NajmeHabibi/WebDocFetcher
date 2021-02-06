@@ -108,7 +108,7 @@ CREATE TABLE `sites` (
   `is_ssl` tinyint(1) NOT NULL DEFAULT '0',
   `depth` int(11) NOT NULL DEFAULT '0',
   `max_docs` int(11) NOT NULL DEFAULT '100',
-  `doc_formats` text NOT NULL,
+  `doc_formats` text NOT NULL DEFAULT '',
   `status` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
